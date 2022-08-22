@@ -1,0 +1,142 @@
+-- Creating a simple student database using MySQL
+-- Multiple tables will be created to demonstrate different examples of constraints 
+DROP TABLE student;
+
+-- 1.
+
+CREATE TABLE student (
+	student_id INT PRIMARY KEY,
+	name VARCHAR(20),
+    major VARCHAR(20)
+    -- PRIMARY KEY(student_id)
+);
+
+-- Shows preview of what the table will look like
+DESCRIBE student;
+
+-- Adding another column to table, DECIMAL with 3 digits and 2 digits after decimal point
+ALTER TABLE student 
+ADD gpa DECIMAL(3, 2);
+
+-- If you wanted to drop a column
+-- ALTER TABLE student DROP COLUMN gpa;
+
+SELECT * FROM student
+
+-- 2.
+
+-- Inserting student data into database table, student information randomly created
+-- The information will be inserted in the order that the table was created, starting with student_id
+INSERT INTO student (student_id, name, major)
+	VALUES(1, 'Jack', 'Biology');
+INSERT INTO student (student_id, name, major)
+	VALUES(2, 'Kate', 'Sociology');
+INSERT INTO student (student_id, name)
+	VALUES(3, 'Claire');
+INSERT INTO student (student_id, name, major)
+	VALUES(4, 'Jack', 'Biology');
+INSERT INTO student (student_id, name, major)
+	VALUES(5, 'Mike', 'Computer Science');
+    
+-- 3.
+
+-- Example of using NOT NULL and UNIQUE
+-- student table gets dropped in order to re-create table in order to make it easier to insert data
+-- this will ensure that there is always a name and that there are no duplicate majors
+CREATE TABLE student (
+	student_id INT PRIMARY KEY,
+	name VARCHAR(20) NOT NULL,
+    major VARCHAR(20) UNIQUE
+    -- PRIMARY KEY(student_id)
+);
+-- After creating table, insert same student data once again, change Claire's name to NULL and give her the major 'Chemistry'
+INSERT INTO student (student_id, name, major)
+	VALUES(3, NULL, 'Chemistry');
+    
+    DROP TABLE student;
+    
+-- This table is set up so that if student does not have major then a default major will be given
+    CREATE TABLE student (
+	student_id INT PRIMARY KEY,
+	name VARCHAR(20),
+    major VARCHAR(20) DEFAULT 'undecided'
+    );
+-- Major for student 1 is removed to return 'undecided' when * from table is selected 
+INSERT INTO student (student_id, name)
+	VALUES(1, 'Jack');
+    
+DROP TABLE student;
+
+-- 4.
+
+-- The following table demonstrates AUTO_INCREMENT which will automatically increment data once it is inserted
+    CREATE TABLE student (
+	student_id INT AUTO_INCREMENT,
+	name VARCHAR(20),
+    major VARCHAR(20
+    PRIMARY KEY(student_id)
+    );
+    
+    INSERT INTO student (name, major)
+		VALUES('Jack', 'Biology');
+	INSERT INTO student (name, major)
+		VALUES('Kate', 'Sociology');
+-- Table is dropped
+
+-- 5.
+
+-- Updating data in table using UPDATE
+CREATE TABLE student (
+	student_id INT PRIMARY KEY,
+	name VARCHAR(20),
+    major VARCHAR(20)
+);
+
+INSERT INTO student (student_id, name, major)
+	VALUES(1, 'Jack', 'Biology');
+INSERT INTO student (student_id, name, major)
+	VALUES(2, 'Kate', 'Sociology');
+INSERT INTO student (student_id, name, major)
+	VALUES(3, 'Claire', 'Chemistry');
+INSERT INTO student (student_id, name, major)
+	VALUES(4, 'Jack', 'Biology');
+INSERT INTO student (student_id, name, major)
+	VALUES(5, 'Mike', 'Computer Science');
+    
+SELECT * FROM student;
+
+UPDATE student
+SET major = 'Bio' 
+WHERE major = 'Biology';
+
+UPDATE student
+SET major = 'Comp Sci'
+WHERE student_id = 4;
+
+UPDATE student 
+SET major = 'Biochemistry'
+WHERE major = 'Bio' OR 'Chemistry'
+
+UPDATE student
+SET name = 'Tom', major = 'undecided'
+WHERE student_id = 1;
+
+-- 6. 
+
+-- Deleting data in table using DELETE FROM
+DELETE FROM student
+WHERE student_id = 5;
+-- WHERE name = 'Tom' AND major = 'undecided';
+
+-- Using SELECT queries to ask data management system for specific information in database and ORDER BY to organize in certain order
+-- Using LIMIT will return certain amount of results from table
+-- Can be used to grab information from students who meet certain conditions, such as certain major, name, etc.
+SELECT * -- name, -- major
+FROM student
+ORDER BY name -- student_id -- DESC -- ASC -- major;
+-- LIMIT 2;
+-- WHERE major = 'Chemostry' OR 'Biology';
+
+-- WHERE statement can be used with different comparison operators 
+-- <, >, <=, >=, =, <>, AND, OR
+
